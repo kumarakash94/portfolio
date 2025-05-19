@@ -3,7 +3,7 @@ from django.contrib import messages
 from .models import Profile, Project, Experience, Education, Contact
 from .forms import ContactForm
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from git import Repo
 from django.shortcuts import render
 from git import Repo, InvalidGitRepositoryError, NoSuchPathError
@@ -54,22 +54,32 @@ def git_contribution_dashboard(request):
     try:
         # Path to your local Git repository (adjust the path)
         repo_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".git")
+        print("Repo Path:", repo_path)
+        
         repo = Repo(repo_path)
-        
-        # Get the active branch (it will automatically detect the correct branch)
         branch = repo.active_branch if repo.head.is_valid() else None
-        
+        print("Active Branch:", branch)
+
         if not branch:
             return HttpResponse("No active branch found in the Git repository.", status=400)
 
         # Initialize contribution dictionary (last 365 days)
-        contributions = {datetime.now().date() - timedelta(days=i): 0 for i in range(365)}
+        contributions = {datetime.now(timezone.utc).date() - timedelta(days=i): 0 for i in range(365)}
+        print("Contribution Dates:", list(contributions.keys())[:5], "...")  # Displaying first 5 dates for debug
         
-        # Fetch commit history
+        # Fetch commit history and display it
         for commit in repo.iter_commits(branch):
-            commit_date = datetime.fromtimestamp(commit.committed_date).date()
+            commit_date = datetime.fromtimestamp(commit.committed_date, timezone.utc).date()
+            print(f"Commit Date: {commit_date} | Author: {commit.author} | Message: {commit.message}")
+            
+            # Direct comparison with keys
             if commit_date in contributions:
                 contributions[commit_date] += 1
+            else:
+                print(f"Commit Date {commit_date} not in Contributions Dictionary.")
+
+        # Debugging Contribution Count
+        print("Contributions Count (First 5):", {k: v for k, v in list(contributions.items())[:5]})
 
         # Prepare data for the template
         context = {
@@ -77,5 +87,6 @@ def git_contribution_dashboard(request):
         }
         return render(request, 'git_dashboard.html', context)
     
-    except (InvalidGitRepositoryError, NoSuchPathError):
+    except (InvalidGitRepositoryError, NoSuchPathError) as e:
+        print("Error:", str(e))
         return HttpResponse("Invalid Git repository or path.", status=400)
