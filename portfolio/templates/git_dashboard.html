@@ -1,28 +1,22 @@
-<!-- templates/git_dashboard.html -->
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Contribution Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
+{% block title %}About - Portfolio{% endblock %}
 
-<body class="bg-gray-50 p-8">
-    <h1 class="text-2xl font-bold mb-4">Git Contribution Dashboard</h1>
-    <div class="grid grid-cols-7 gap-1">
-        {% for date, count in contributions.items %}
-        <div class="w-6 h-6 rounded-sm" title="Date: {{ date }} - Commits: {{ count }}" :class="{
-                    'bg-gray-100': {{ count }} == 0,
-                    'bg-green-100': {{ count }} > 0 && {{ count }} <= 5,
-                    'bg-green-300': {{ count }} > 5 && {{ count }} <= 10,
-                    'bg-green-500': {{ count }} > 10 && {{ count }} <= 20,
-                    'bg-green-700': {{ count }} > 20
-                 }"></div>
-        {% endfor %}
+{% block content %}
+    <div class="dashboard">
+        <div class="contribution-grid">
+            {% for date, count in contributions.items %}
+            <div class="contribution-cell {% if count == 0 %} bg-0 {% elif count <= 5 %} bg-1 {% elif count <= 10 %} bg-2 {% elif count <= 20 %} bg-3 {% else %} bg-4 {% endif %}"
+                title="Date: {{ date }} - Commits: {{ count }}"></div>
+            {% endfor %}
+        </div>
+
+        <div class="legend">
+            <div class="legend-text">Less</div>
+            <div><span class="bg-0"></span><span class="bg-1"></span><span class="bg-2"></span><span
+                    class="bg-3"></span><span class="bg-4"></span></div>
+            <div class="legend-text">More</div>
+        </div>
     </div>
-</body>
-
-</html>
+{% endblock %}

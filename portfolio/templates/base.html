@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Portfolio{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/tailwind.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/git_dashboard.css' %}">
     <script src="{% static 'js/alpine.min.js' %}" defer></script>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900" x-data="{ darkMode: false, menuOpen: false }">
@@ -20,6 +21,7 @@
                     <a href="{% url 'projects' %}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Projects</a>
                     <a href="{% url 'experience' %}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Experience</a>
                     <a href="{% url 'contact' %}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Contact</a>
+                    <a href="{% url 'git_dashboard' %}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Git Dashboard</a>
                     <!-- <button @click="darkMode = !darkMode" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
                         <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>

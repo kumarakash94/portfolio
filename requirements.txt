@@ -1,7 +1,11 @@
+asgiref==3.8.1
+crispy-tailwind==1.0.3
 Django==4.2.3
-django-crispy-forms
-crispy-tailwind
-Pillow
-# psycopg2-binary
+django-crispy-forms==2.4
+gitdb==4.0.12
+GitPython==3.1.44
+pillow==11.2.1
+smmap==5.0.2
+sqlparse==0.5.3
+tzdata==2025.2
 whitenoise==6.6.0
-# gunicorn==21.2.0

@@ -52,9 +52,12 @@ def contact(request):
     
 def git_contribution_dashboard(request):
     try:
-        # Path to your local Git repository (adjust the path)
-        repo_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".git")
+        # Specify the correct Git repository path
+        repo_path = os.path.abspath(r"D:\project\.git")
         print("Repo Path:", repo_path)
+        
+        if not os.path.exists(repo_path):
+            return HttpResponse("Invalid Git repository or path.", status=400)
         
         repo = Repo(repo_path)
         branch = repo.active_branch if repo.head.is_valid() else None
@@ -65,18 +68,13 @@ def git_contribution_dashboard(request):
 
         # Initialize contribution dictionary (last 365 days)
         contributions = {datetime.now(timezone.utc).date() - timedelta(days=i): 0 for i in range(365)}
-        print("Contribution Dates:", list(contributions.keys())[:5], "...")  # Displaying first 5 dates for debug
-        
-        # Fetch commit history and display it
-        for commit in repo.iter_commits(branch):
+        print("Contribution Dates:", list(contributions.keys())[:5], "...")
+
+        # Fetch commit history
+        for commit in repo.iter_commits(branch.name):
             commit_date = datetime.fromtimestamp(commit.committed_date, timezone.utc).date()
-            print(f"Commit Date: {commit_date} | Author: {commit.author} | Message: {commit.message}")
-            
-            # Direct comparison with keys
             if commit_date in contributions:
                 contributions[commit_date] += 1
-            else:
-                print(f"Commit Date {commit_date} not in Contributions Dictionary.")
 
         # Debugging Contribution Count
         print("Contributions Count (First 5):", {k: v for k, v in list(contributions.items())[:5]})
