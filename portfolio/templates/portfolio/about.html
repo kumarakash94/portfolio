@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Portfolio{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-white dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                About Me
+            </h2>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+                {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="w-full h-auto rounded-lg shadow-lg">
+                {% endif %}
+            </div>
+            <div>
+                <div class="prose dark:prose-dark">
+                    <p class="text-lg text-gray-600 dark:text-gray-300">{{ profile.bio }}</p>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Skills</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {% for skill in profile.skills %}
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4 text-center">
+                            <span class="text-gray-800 dark:text-gray-200">{{ skill }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Education</h3>
+                    {% for edu in education %}
+                    <div class="mb-6">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white">{{ edu.institution }}</h4>
+                        <p class="text-indigo-600 dark:text-indigo-400">{{ edu.degree }}</p>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            {{ edu.start_date|date:"M Y" }} - {% if edu.end_date %}{{ edu.end_date|date:"M Y" }}{% else %}Present{% endif %}
+                        </p>
+                        <p class="mt-2 text-gray-600 dark:text-gray-300">{{ edu.description }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if profile.resume %}
+                <div class="mt-8">
+                    <a href="{{ profile.resume.url }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                        Download Resume
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

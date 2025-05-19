@@ -1,0 +1,7 @@
+Django==4.2.3
+django-crispy-forms
+crispy-tailwind
+Pillow
+# psycopg2-binary
+whitenoise==6.6.0
+# gunicorn==21.2.0

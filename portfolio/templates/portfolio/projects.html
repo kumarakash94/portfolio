@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Projects - Portfolio{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                Projects
+            </h2>
+            <p class="mt-4 max-w-2xl text-xl text-gray-600 dark:text-gray-300 mx-auto">
+                Here are some of my recent projects that showcase my skills and experience.
+            </p>
+        </div>
+
+        <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {% for project in projects %}
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                {% if project.project_image %}
+                <img src="{{ project.project_image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ project.title }}</h3>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300">{{ project.description }}</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        {% for tech in project.technology_stack %}
+                        <span class="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-600 rounded-full text-gray-800 dark:text-gray-200">
+                            {{ tech }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-4 flex space-x-4">
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" rel="noopener noreferrer" 
+                           class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                            Code
+                        </a>
+                        {% endif %}
+                        {% if project.project_link %}
+                        <a href="{{ project.project_link }}" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                            </svg>
+                            Live Demo
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
